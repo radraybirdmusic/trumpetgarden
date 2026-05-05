@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BUZZ TIPS - Infotainment Rockstar Lab</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #141414;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        let step = 0; 
+        let totalSteps = 3;
+        let instructions = [
+            "STEP 1: THE 'M'\n\nSay 'Mmm' and keep your\nlips gently touching.\n\nKeep the corners firm!",
+            "STEP 2: THE 'P'\n\nPress air behind your lips\nlike you are ready to say 'P'.\n\nBuild that pressure!",
+            "STEP 3: THE 'H'\n\nBlow a steady 'H' stream.\n\nLet it fly and feel\nthe BUZZ begin!"
+        ];
+
+        function setup() {
+            createCanvas(windowWidth, windowHeight);
+            textAlign(CENTER, CENTER);
+        }
+
+        function draw() {
+            background(20); // Dark Lab Console
+
+            if (step === 0) {
+                drawSplash();
+            } else {
+                drawGuide(step - 1);
+            }
+        }
+
+        function drawSplash() {
+            // Main Button
+            rectMode(CENTER);
+            fill(255, 204, 0); // Warning Yellow
+            rect(width/2, height/2, 280, 120, 25);
+            
+            fill(0);
+            textSize(36);
+            textStyle(BOLD);
+            text("BUZZ TIPS", width/2, height/2);
+            
+            fill(200);
+            textSize(18);
+            textStyle(NORMAL);
+            text("Tap to start training", width/2, height/2 + 100);
+        }
+
+        function drawGuide(i) {
+            // Instruction Card
+            rectMode(CENTER);
+            fill(255);
+            rect(width/2, height/2 - 40, width * 0.85, 350, 20);
+            
+            // Text Shadow
+            fill(200);
+            textSize(28);
+            text(instructions[i], width/2 + 2, height/2 - 38);
+            
+            // Main Text
+            fill(0);
+            text(instructions[i], width/2, height/2 - 40);
+            
+            // Progress Bar Background
+            fill(60);
+            rect(width/2, height/2 + 180, width * 0.7, 20, 10);
+            
+            // Progress Bar Fill
+            fill(255, 204, 0);
+            let barWidth = map(step, 1, totalSteps, 0, width * 0.7);
+            rectMode(CORNER);
+            rect(width/2 - (width * 0.7)/2, height/2 + 170, barWidth, 20, 10);
+
+            // Navigation Button
+            rectMode(CENTER);
+            fill(0, 150, 0); // Go Green
+            rect(width/2, height - 100, 220, 70, 15);
+            
+            fill(255);
+            textSize(24);
+            let btnText = (step === totalSteps) ? "FINISH" : "NEXT STEP";
+            text(btnText, width/2, height - 100);
+        }
+
+        function mousePressed() {
+            // Check if clicking Splash Button
+            if (step === 0) {
+                if (mouseX > width/2 - 140 && mouseX < width/2 + 140 && 
+                    mouseY > height/2 - 60 && mouseY < height/2 + 60) {
+                    step = 1;
+                }
+            } 
+            // Check if clicking Next Button
+            else {
+                if (mouseX > width/2 - 110 && mouseX < width/2 + 110 && 
+                    mouseY > height - 135 && mouseY < height - 65) {
+                    if (step < totalSteps) {
+                        step++;
+                    } else {
+                        step = 0; // Reset to start
+                    }
+                }
+            }
+        }
+
+        function windowResized() {
+            resizeCanvas(windowWidth, windowHeight);
+        }
+    </script>
+</body>
+</html>
